@@ -1,0 +1,42 @@
+	新建以下几个表
+student(学生表)：
+sno	sname	sex	dept	birth	age
+					
+其中约束如下：
+（1）	学号不能存在相同的
+（2）	名字为非空
+（3）	性别的值只能是’男’或’女’
+（4）	系包括这几个：信息系，计算机科学系，数学系，管理系，中文系，外语系，法学系
+（5）	出生日期为日期格式
+（6）	年龄为数值型，且在0~100之间
+cs(成绩表)：
+sno	cno	cj
+		
+其中约束如下：
+（1）sno和cno分别参照student和course表中的sno,cno的字段
+（2）cj(成绩)只能在0~100之间，可以不输入值
+course（课程表）
+cno	cname
+	
+其约束如下：
+（1）课程号（cno）不能有重复的
+（2）课程名（cname）非空
+
+
+代码如下：
+ create table student(
+    -> sno int constraint a primary key,
+    -> sname varchar(10) not null,
+    ->  sex varchar(2) constraint b check(sex in('男','女')),
+    -> dept varchar(12) constraint c check(dept in('信息系','计算机科学系','数学系','管理系','中文系','外语系','法语系'),
+    ->  birth datetime,
+    -> age smallint constraint d check(age between 0 and 100));
+ create table cs(
+    -> sno int references student(sno),
+    -> cno int not null references course(cno),
+    -> cj smallint check(cj between 0 and 100),
+    -> constraint abc primary key(sno,cno));
+ create table course(
+    -> cno int primary key,
+    -> cname varchar(20) not null
+    -> );
