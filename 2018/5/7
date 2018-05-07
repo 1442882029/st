@@ -1,0 +1,41 @@
+测试表格
+--1.学生表
+Student(S#,Sname,Sage,Ssex) 
+--S# 学生编号,Sname 学生姓名,Sage 出生年月,Ssex 学生性别
+
+--2.课程表 
+Course(C#,Cname,T#) 
+--C# --课程编号,Cname 课程名称,T# 教师编号
+
+--3.教师表 
+Teacher(T#,Tname)
+ --T# 教师编号,Tname 教师姓名
+
+--4.成绩表 
+SC(S#,C#,score)
+ --S# 学生编号,C# 课程编号,score 分数
+ 
+ 1. 查询" 01 "课程比" 02 "课程成绩高的学生的信息及课程分数
+1.1 查询同时存在" 01 "课程和" 02 "课程的情况
+1.2 查询存在" 01 "课程但可能不存在" 02 "课程的情况(不存在时显示为 null )
+1.3 查询不存在" 01 "课程但存在" 02 "课程的情况
+
+
+
+select A.*,B.C#,B.score from (select * from SC where C#='01')A   
+left join(select * from SC where C#='02')B   
+on A.S#=B.S#   
+where A.score>B.score  
+--1 查询“ 01 ”课程比" 02 "课程成绩高的学生的信息及课程分数  
+  
+select * from (select * from SC where C#='01')A   
+left join (select * from SC where C#='02')B on A.S#=B.S#  
+where B.S# is not null  
+--1.1 查询同时存在" 01 "课程和" 02 "课程的情况  
+  
+select * from (select * from SC where C#='01')A  
+left join (select * from SC where C#='02')B on A.S#=B.S#  
+--1.2 查询存在" 01 "课程但可能不存在" 02 "课程的情况(不存在时显示为null)  
+  
+select * from SC where C#='02'and S# not in(select S# from SC where C#='01')  
+--1.3 查询不存在" 01 "课程但存在" 02 "课程的情况  
